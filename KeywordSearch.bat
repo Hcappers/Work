@@ -37,9 +37,12 @@ set /p SearchKeyword=
 :: Debug: Show search info
 PowerShell -Command "Write-Host '[DEBUG] Searching in: ''%SearchDir%'' for keyword: ''%SearchKeyword%''.' -ForegroundColor Yellow"
 
-:: Run the search with flexible matching for spaces and hyphens, outputting correctly to the file
-PowerShell -Command "$normalizedKeyword = ('%SearchKeyword%' -replace '[-\s]', ''); Get-ChildItem -Path '%SearchDir%' -Recurse -File | Where-Object { ($_.Name -replace '[-\s]', '') -match $normalizedKeyword } | ForEach-Object { Write-Host 'Found: ' $_.FullName -ForegroundColor Cyan; $_.FullName } | Out-File -FilePath '%ResultFile%' -Encoding ASCII"
+:: Display running message
+PowerShell -Command "Write-Host '[ACTION] Running search. Please wait...' -ForegroundColor Cyan"
+
+:: Run the search with full path matching
+PowerShell -Command "$normalizedKeyword = ('%SearchKeyword%' -replace '[-\s]', ''); Get-ChildItem -Path '%SearchDir%' -Recurse | Where-Object { ($_.FullName -replace '[-\s]', '') -match $normalizedKeyword } | ForEach-Object { Write-Host 'Found: ' $_.FullName -ForegroundColor Cyan; $_.FullName } | Out-File -FilePath '%ResultFile%' -Encoding ASCII"
 
 :: Completion message
 PowerShell -Command "Write-Host '[OK] Search completed. Results saved in ''%ResultFile%''.' -ForegroundColor Green"
-exit /b 0
+pause
