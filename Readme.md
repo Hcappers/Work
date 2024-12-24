@@ -1,1 +1,1 @@
-## This contains all the code I either edited or wrote for work purposes. 
+## This contains all the code I edited or wrote for work purposes. 
